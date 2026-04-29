@@ -67,5 +67,32 @@ export default {
         catch (err) {
             throw new AppError("internal server error", 501);
         }
+    },
+
+    getUser: async (data: {nic?: string, name?: string}) => {
+        if (!data) {
+            throw new AppError("enter valid data");
+        }
+        if (data.nic) {
+            try {
+                const user = await userModel.find({nic: data.nic});
+
+                return user;
+            }
+            catch (err) {
+                throw new AppError("internal server error", 501);
+            }
+        }
+        if (data.name) {
+            try {
+                const users = await userModel.find({name: data.name});
+
+                return users;
+            }
+            catch (err) {
+                throw new AppError("internal server error", 501);
+            }
+        }
+        throw new AppError("internal server error", 501);
     }
 }

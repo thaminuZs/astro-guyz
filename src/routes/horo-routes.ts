@@ -46,5 +46,27 @@ const router = new Elysia({prefix: "/users"})
         }
     })
 
+    .get("/get", async ({ query, set }) => {
+        try {
+            return await services.getUser(query);
+        }
+        catch (error) {
+            if (error instanceof AppError) {
+                set.status = error.status;
+                return {error: error.message};
+            }
+            else {
+                set.status = 520;
+                return {error: "unknown error"};
+            }
+        }
+    },
+    {
+        query: t.Object({
+            nic: t.Optional(t.String()),
+            name: t.Optional(t.String())
+        })
+    })
+
 
 export default router;
