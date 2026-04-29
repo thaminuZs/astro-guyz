@@ -1,5 +1,5 @@
 import express from "express";
-import { getJulianDate, getMoonLongtitude, getRashi, getNakshatra } from "./horo/horoscope.js";
+import { getJulianDate, getMoonLongtitude, getRashi, getNakshatra, getLagna } from "./horo/horoscope.js";
 
 const PORT = process.env.HORO_PORT;
 
@@ -15,8 +15,9 @@ app.get("/", (req, res) => {
 
         const rashi = getRashi(longitude);
         const nakshatra = getNakshatra(longitude);
+        const lagna = getLagna(jday);
 
-        res.status(200).json({rashi: rashi, nakshatra: nakshatra});
+        res.status(200).json({lagna: lagna, rashi: rashi, nakshatra: nakshatra});
     }
     catch {
         res.status(400).json({error: "server error"});

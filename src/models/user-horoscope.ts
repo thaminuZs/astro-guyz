@@ -33,6 +33,10 @@ const userSchema = new Schema({
     },
     horo: {
         type: {
+            lagna: {
+                type: String,
+                default: ""
+            },
             rashi: {
                 type: String,
                 default: ""

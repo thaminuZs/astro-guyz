@@ -26,7 +26,7 @@ export default {
         }
 
         const res = await fetch(`http://localhost:${horoPort}?dob=${data.dob}&tob=${data.tob}&zone=${data.timezone}`);
-        const userData = await res.json() as {rashi?: string, nakshatra?: string, error?: string};
+        const userData = await res.json() as {lagna?: string, rashi?: string, nakshatra?: string, error?: string};
 
         if (!userData.error) {
             const user = {
@@ -39,6 +39,7 @@ export default {
                     timezone: data.timezone,
                 },
                 horo: {
+                    lagna: userData.lagna,
                     rashi: userData.rashi,
                     nakshatra: userData.nakshatra
                 }
@@ -56,5 +57,15 @@ export default {
             throw new AppError("horoscope fetch error", 501);
         }
         
+    },
+
+    fetch: async () => {
+        try {
+            const users = await userModel.find();
+            return users;
+        }
+        catch (err) {
+            throw new AppError("internal server error", 501);
+        }
     }
 }

@@ -19,6 +19,23 @@ export function getMoonLongtitude(jdate) {
     return res.longitude;
 }
 
+export function getLagna(jdate, lat=6.9271, lon=79.8612) {
+  const res = swe.swe_houses(jdate, lat, lon);
+
+  if (res.error) {
+    throw new Error(res.error);
+  }
+
+  const astroSigns = [
+    "Mesha", "Vrushabha", "Mithuna", "Kataka", "Sinha", "Kanya",
+    "Thula", "Vrushchika", "Dhanu", "Makara", "Kumbha", "Meena"
+  ];
+
+  const ascDegree = res.ascendant;
+  const signIndex = Math.floor(ascDegree / 30);
+  return astroSigns[signIndex];
+}
+
 export function getRashi(longitude) {
   const astroSigns = [
     "Mesha", "Vrushabha", "Mithuna", "Kataka", "Sinha", "Kanya",

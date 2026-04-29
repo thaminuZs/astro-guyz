@@ -30,5 +30,21 @@ const router = new Elysia({prefix: "/users"})
     }
     )
 
+    .get("/", async ({ set }) => {
+        try {
+            return await services.fetch();
+        }
+        catch (error) {
+            if (error instanceof AppError) {
+                set.status = error.status;
+                return {error: error.message};
+            }
+            else {
+                set.status = 520;
+                return {error: "unknown error"};
+            }
+        }
+    })
+
 
 export default router;
